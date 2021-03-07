@@ -1,5 +1,5 @@
 """
-
+Data decoder for WB Aerostat subteam. Converts raw APRS packets into a form usable by the wb_wind_analysis repo.
 
 """
 

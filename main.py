@@ -5,21 +5,13 @@ Data decoder for WB Aerostat subteam. Converts raw APRS packets into a form usab
 
 import csv
 
-mode = input("Enter 'r' to import raw packets,"
-             "or 'o' to import packets from an organized DireWolf csv output"
-             "(file should be called input.txt): ")
+from raw_input import process_raw_input_direwolf
 
-if mode == 'r':
-    #open .txt file
-    #create raw_input object
-    #call a function to pass raw data to datapoints object
-    pass
 
-elif mode == 'o':
-    # open .csv file
-    # create organized_input object
-    # call a function to pass raw data to datapoints object
-    pass
+raw_data = process_raw_input_direwolf()
+print(raw_data)
+
+
 
 
 def write_output(wind_datapoints):

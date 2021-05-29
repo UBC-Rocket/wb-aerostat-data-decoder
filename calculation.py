@@ -16,7 +16,7 @@ def calculate_components(long_2, long_1, lat_2, lat_1, alt_2, alt_1, sensor_spee
     :param alt_1: altitude at start of time step
     :param sensor_speed: velocity measured by sensor in km/h
     :param time_step: time between two measurements, in seconds
-    :return:
+    :return: (y_wind, x_wind) i.e. (latitude, longitude) velocities
     """
     # 0) Calculate the GPS displacements: i.e. displacement components of the balloon in meters (along N/S and E/W axes)
     # Yes, we use the LATitude value in the argument for cosine when calculating LONGitude.

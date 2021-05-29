@@ -23,10 +23,12 @@ raw_data = process_raw_input_direwolf()
 
 datapoints = []
 for i in range(len(raw_data)):
-    datapoints.append([raw_data[i][2], calculate_components(raw_data[i+1][1], raw_data[i][1],
+    (y_wind, x_wind) = calculate_components(raw_data[i+1][1], raw_data[i][1],
                                                             raw_data[i+1][0],raw_data[i][0],
                                                             raw_data[i+1][2],raw_data[i][2],
-                                                            mean((raw_data[i+1][3], raw_data[i][3])))])
+                                                            mean((raw_data[i+1][3], raw_data[i][3])))
+    datapoints.append([raw_data[i][2], x_wind, y_wind])
+
 
 write_output(datapoints)
 

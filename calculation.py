@@ -8,14 +8,14 @@ import math
 
 def calculate_components(long_2, long_1, lat_2, lat_1, alt_2, alt_1, sensor_speed, time_step):
     """
-    :param long_2:
-    :param long_1:
-    :param lat_2:
-    :param lat_1:
+    :param long_2: longitude at end of time step
+    :param long_1: longitude at start of time step
+    :param lat_2: latitude at end of time step
+    :param lat_1: latitude at start of time step
     :param alt_2: altitude at end of time step
     :param alt_1: altitude at start of time step
-    :param sensor_v: velocity measured by sensor in km/h
-    :param time_step: time between two measurements
+    :param sensor_speed: velocity measured by sensor in km/h
+    :param time_step: time between two measurements, in seconds
     :return:
     """
     # 0) Calculate the GPS displacements: i.e. displacement components of the balloon in meters (along N/S and E/W axes)
@@ -38,15 +38,15 @@ def calculate_components(long_2, long_1, lat_2, lat_1, alt_2, alt_1, sensor_spee
     # just with the horizontal component. We use the fact that $v^2 = v_{horizontal}^2+v_{vertical}^2$. Taking **v** from the wind sensor,
     # and **v_vertical** from altitude differences, we calculate v_horizontal
 
-    sensor_speed_horizontal = math.sqrt((sensor_speed/3.6)^2 - (disp_altitude/time_step)^2)
+    sensor_speed_horizontal = math.sqrt((sensor_speed/3.6)**2 - (disp_altitude/time_step)**2)
     #divide by 3.6 to convert from km/h to m/s
 
     # 4) Split the resulting v_horizontal into components parallel to N/S and E/W axes, using the bearing calculated in step 1
     (sensor_speed_long, sensor_speed_lat) = split_vector_to_components(sensor_speed_horizontal, bearing)
 
     # 5) Add the GPS displacments (step 0) to relative wind velocity (step 4)*
-
-    return (disp_lat/time_step + sensor_speed_lat, disp_long/time_step + sensor_speed_long)
+    # I use math.copysign as a temporary fix, while I figure out why bearing didnt fix the sign.
+    return (disp_lat/time_step + math.copysign(sensor_speed_lat, disp_lat), disp_long/time_step + math.copysign(sensor_speed_long, disp_long))
 
 
 def calculate_bearing(delta_lat, delta_long):

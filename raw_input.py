@@ -23,10 +23,10 @@ def process_raw_input_legacy():
 
         #Make a long list, each element being a list: (gps long, gps lat, [sublist of altitudes], [sublist of velocities])
         for i in range(len(gps_lat)):
-            split_contents[i][0] = gps_lat[i][0] #Since gps_lat is a list of lists
-            split_contents[i][1] = gps_long[i][0]
-            split_contents[i][2] = altitude_values[i]
-            split_contents[i][3] = velocity_values[i]
+            split_contents[i][0] = float(gps_lat[i][0]) #Since gps_lat is a list of lists
+            split_contents[i][1] = float(gps_long[i][0])
+            split_contents[i][2] = int(altitude_values[i])
+            split_contents[i][3] = int(velocity_values[i])
 
     return split_contents
 
@@ -36,7 +36,8 @@ def process_raw_input_direwolf():
         reader = csv.DictReader(input_file)
         split_contents = [{'lat': x['latitude'], 'long': x['longitude'], 'comment': x['comment']} for x in reader]
 
-    # There are 3 or more altitude/value measurements for each GPS measurement. We want each measurement, not each transmission, to be a data point.
+    # There are 3 or more altitude/value measurements for each GPS measurement.
+    # We want each measurement, not each transmission, to be a data point.
 
     processed_input = []
     for element in split_contents:
@@ -44,6 +45,7 @@ def process_raw_input_direwolf():
         velocity_values = re.findall(config.GPS_VEL_FORMAT, element['comment'])
         for i in range(len(altitude_values)):
             # The .replace function is used to remove the 'v' or 'a' character picked up using RegEx
-            processed_input.append([element['lat'], element['long'], altitude_values[i].replace("a",""), velocity_values[i].replace("v","")])
+            processed_input.append([float(element['lat']), float(element['long']), int(altitude_values[i].replace("a","")),
+                                    int(velocity_values[i].replace("v",""))])
 
     return processed_input

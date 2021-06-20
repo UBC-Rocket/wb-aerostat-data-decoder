@@ -18,6 +18,12 @@ def write_output(datapoints):
         writer.writerows(datapoints)
 
 
+def write_map_output(raw_data):
+    with open("map_output.csv", 'w', newline="") as mapfile:
+        mapfile.write("Datapoint_ID,Latitude,Longitude,Altitude\n")
+        for i in range(len(raw_data)):
+            mapfile.write(f"{i+1},{raw_data[i][0]},{raw_data[i][1]},{raw_data[i][2]}\n")
+
 
 raw_data = process_raw_input_direwolf()
 
@@ -28,8 +34,8 @@ for i in range(len(raw_data)-1):
                                                             raw_data[i+1][2],raw_data[i][2],
                                                             mean([raw_data[i+1][3], raw_data[i][3]]),
                                                             20)
-    datapoints.append([raw_data[i][2], x_wind, y_wind])
+    datapoints.append([raw_data[i][2], y_wind, x_wind])
 
 
 write_output(datapoints)
-
+write_map_output(raw_data)

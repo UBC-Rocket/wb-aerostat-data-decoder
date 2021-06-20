@@ -117,3 +117,21 @@ def split_vector_to_components(vec, bearing):
     :return: the (horizontal, vertical) components of the vector magnitude
     """
     return (vec*math.cos(math.radians(bearing)), vec*math.sin(math.radians(bearing)))
+
+
+def estimate_gps_position(lat1, long1, lat2, long2, quantity_intrmd_pts):
+    """Given two GPS points, you can draw a straight line between them. Then estimate the position
+    of the balloon between two GPS data measurements using that straight line.
+    :param lat1: latitude of first point
+    :param lat2: latitude of second point
+    :param long1: longitude of first point
+    :param long2: longitude of second point
+    :param quantity_intrmd_pts: number of points to make in between the two known ones
+    :return: a list containing tuples of intermediate (lat, long) points.
+    """
+    output = []
+    for i in range(len(quantity_intrmd_pts)):
+        lat_intrmd = lat1 + (i/(1+len(quantity_intrmd_pts)))*(lat2-lat1)
+        long_intrmd = long1 + (i/(1+len(quantity_intrmd_pts)))*(long2-long1)
+        output.append((lat_intrmd,long_intrmd))
+    return output

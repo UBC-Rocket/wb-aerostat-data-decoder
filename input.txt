@@ -1,6 +1,5 @@
 chan,utime,isotime,source,heard,level,error,dti,name,symbol,latitude,longitude,speed,course,altitude,frequency,offset,tone,system,status,telemetry,comment
-0,1621116791,2021-05-15T22:13:11Z,VE7BVU-1,VE7BVU-1,58(17/29),0,/,VE7BVU-1,/O,49.180167,-123.085833,,,,,,,"Generic, (obsolete. Digis should use APNxxx instead)",,,a00064v000a00064v000a00000v000
-0,1621116851,2021-05-15T22:14:11Z,VE7BVU-1,VE7BVU-1,58(17/30),0,/,VE7BVU-1,/O,49.180194,-123.085893,,,,,,,"Generic, (obsolete. Digis should use APNxxx instead)",,,a00000v000a00000v000a00000v000
-0,1621116911,2021-05-15T22:15:11Z,VE7BVU-1,VE7BVU-1,59(17/28),0,/,VE7BVU-1,/O,49.180333,-123.085667,,,,,,,"Generic, (obsolete. Digis should use APNxxx instead)",,,a00006v000a00006v000a00009v000
-0,1621116971,2021-05-15T22:16:11Z,VE7BVU-1,VE7BVU-1,56(17/30),0,/,VE7BVU-1,/O,49.182333,-123.082667,,,,,,,"Generic, (obsolete. Digis should use APNxxx instead)",,,a00011v000a00012v000a00012v000
-0,1621117031,2021-05-15T22:17:11Z,VE7BVU-1,VE7BVU-1,58(17/29),0,/,VE7BVU-1,/O,49.185333,-123.095667,,,,,,,"Generic, (obsolete. Digis should use APNxxx instead)",,,a00012v000a00012v000a00012v000
+0,1621116791,2021-05-15T22:13:11Z,VE7BVU-1,VE7BVU-1,58(17/29),0,/,VE7BVU-1,/O,49.180167,-123.085833,,,,,,,"Generic, (obsolete. Digis should use APNxxx instead)",,,a00064v003a00084v008a000102v015
+0,1621116811,2021-05-15T22:13:11Z,VE7BVU-1,VE7BVU-1,58(17/29),0,/,VE7BVU-1,/O,49.190297,-123.095723,,,,,,,"Generic, (obsolete. Digis should use APNxxx instead)",,,a000124v039a00139v041a00159v040
+0,1621116831,2021-05-15T22:13:11Z,VE7BVU-1,VE7BVU-1,58(17/29),0,/,VE7BVU-1,/O,49.200319,-123.075611,,,,,,,"Generic, (obsolete. Digis should use APNxxx instead)",,,a000181v045a00199v047a00224v051
+0,1621116851,2021-05-15T22:13:11Z,VE7BVU-1,VE7BVU-1,58(17/29),0,/,VE7BVU-1,/O,49.230431,-123.065506,,,,,,,"Generic, (obsolete. Digis should use APNxxx instead)",,,a000245v053a00270v052a00293v058

@@ -58,15 +58,17 @@ def process_input_dw_compressed():
 
     with open(config.INPUT_FILE_NAME, 'r', newline="") as input_file:
         reader = csv.DictReader(input_file)
-        split_rows_A = [{'lat': x['latitude'], 'long': x['longitude'], 'alt': x['altitude'], 'comment': x['comment']} for x in reader]
+        split_rows = [{'lat': x['latitude'], 'long': x['longitude'], 'alt': x['altitude'], 'comment': x['comment']} for x in reader]
 
-    for element in split_rows_A:
+    datapoints = []
+
+    for element in split_rows:
         # first char in comment is for latest windspeed
         # then come the additional GPS positions (end index 8*GPS_QUANTITY acknowledges that we start at index 1, not 0)
         # finally come all of the altitude/velocity data, to the very end
-        latest_wind_speed = unpack_wind_speed(element['comment'][0])
-        gps_data_stringchain = element['comment'][1:(8*config.COMPR_GPS_QUANTITY)]
-        sens_data_stringchain = element['comment'][(1+8*config.COMPR_GPS_QUANTITY):-1]
+        latest_wind_speed = unpack_wind_speed(element['comment'][-1])
+        gps_data_stringchain = element['comment'][0:(8*(config.COMPR_GPS_QUANTITY - 1))]
+        sens_data_stringchain = element['comment'][(8*(config.COMPR_GPS_QUANTITY - 1)):-1] # from end of GPS sentence!
 
         latitudes = []
         longitudes = []
@@ -75,13 +77,13 @@ def process_input_dw_compressed():
 
         # Split each string contianing multiple GPS/sensor datapoints into individual pieces of data
         # example: Lat1Long1Lat2Long2Lat3Long3 --> (Lat1, Lat2, Lat3...) and (Long1, Long2, Long3...
-        for i in range(len(config.COMPR_GPS_QUANTITY - 1)):
-            latitudes[i] = unpack_latitude(gps_data_stringchain[(8*i):(8*(i+1)-5)])
-            longitudes[i] = unpack_longitude(gps_data_stringchain[((8*i)+4):(8*(i+1)-1)])
+        for i in range(config.COMPR_GPS_QUANTITY - 1):
+            latitudes.append(unpack_latitude(gps_data_stringchain[(8*i):(8*(i+1)-4)]))
+            longitudes.append(unpack_longitude(gps_data_stringchain[((8*i)+4):(8*(i+1))]))
 
-        for i in range(len(config.COMPR_SENS_QUANTITY - 1)):
-            altitudes[i] = unpack_altitude(sens_data_stringchain[(3*i):(3*(i+1)-2)])
-            wind_speeds[i] = unpack_wind_speed(sens_data_stringchain[(3*i)+2])
+        for i in range(config.COMPR_SENS_QUANTITY - 1):
+            altitudes.append(unpack_altitude(sens_data_stringchain[(3*i):(3*(i+1)-1)]))
+            wind_speeds.append(unpack_wind_speed(sens_data_stringchain[(3*i)+2]))
 
         # Append the latest data, which doesn't come from the comment (except for windspeed which does)
         latitudes.append(float(element['lat']))
@@ -89,8 +91,9 @@ def process_input_dw_compressed():
         altitudes.append(float(element['alt']))
         wind_speeds.append(float(latest_wind_speed))
 
-        return {'lats': latitudes, 'longs': longitudes, 'altitudes': altitudes, 'wind_speeds': wind_speeds}
+        datapoints.append({'lats': latitudes, 'longs': longitudes, 'altitudes': altitudes, 'wind_speeds': wind_speeds})
 
+    return datapoints
 
 
 

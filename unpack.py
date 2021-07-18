@@ -42,7 +42,11 @@ def unpack_altitude(compressed_string):
     :return: Altitude, in meters, to 0.4% accuracy
     """
     alt = [base91_to_int(x) for x in compressed_string]
-    return feet_to_meters(1.002**(alt[0]*91.0 + alt[1]))
+    if (alt[0] > 124) or (alt[1] > 124):
+        return 0.12345
+        # In case of glitch, where an ASCII value ends up being too high, set the altitude to zero. At least we'll know a glitch occured.
+    else:
+        return feet_to_meters(1.002**(alt[0]*91.0 + alt[1]))
 
 
 def unpack_wind_speed(compressed_string):

@@ -9,6 +9,7 @@ from statistics import mean
 from input import process_input_dw_compressed
 from calculation import calculate_components_dd, interpolate_gps_positions
 import config
+from unpack import feet_to_meters, knots_to_kilom
 
 
 def write_output(datapoints):
@@ -27,14 +28,12 @@ def write_map_output(raw_data):
 
 
 
-
-
 raw_data = process_input_dw_compressed()
 cleaned_data = []
 for i in range(len(raw_data) - 1):
     new_data = interpolate_gps_positions(raw_data[i], raw_data[i+1]) # We lose the first minute of data
     for j in range(config.COMPR_SENS_QUANTITY):
-        cleaned_data.append([new_data[j][0], new_data[j][1], raw_data[i+1]['altitudes'][j], raw_data[i+1]['wind_speeds'][j]])
+        cleaned_data.append([new_data[j][0], new_data[j][1], feet_to_meters(raw_data[i+1]['altitudes'][j]), knots_to_kilom(raw_data[i+1]['wind_speeds'][j])])
 
 datapoints = []
 for i in range(len(cleaned_data) - 1):

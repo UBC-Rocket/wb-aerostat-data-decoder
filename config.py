@@ -7,7 +7,7 @@ Configuration for APRS message decoder.
 Settings for file input and output
 """
 
-INPUT_FILE_NAME = "input.txt"
+INPUT_FILE_NAME = "2021-07-16.csv"
 
 
 """

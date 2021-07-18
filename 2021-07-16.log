@@ -1,0 +1,15 @@
+chan,utime,isotime,source,heard,level,error,dti,name,symbol,latitude,longitude,speed,course,altitude,frequency,offset,tone,system,status,telemetry,comment
+0,1626454454,2021-07-16T16:54:14Z,VE7BVU-1,VE7BVU-1,28(8/14),0,/,VE7BVU-1,/b,-0.000000,0.000000,,,0.0,,,,"Generic, (obsolete. Digis should use APNxxx instead)",,,NN!!NN!!NN!!NN!!NN!!NN!! üY ü8 ü//
+0,1626454474,2021-07-16T16:54:34Z,VE7BVU-1,VE7BVU-1,28(8/13),0,/,VE7BVU-1,/b,-0.000000,0.000000,,,0.0,,,,"Generic, (obsolete. Digis should use APNxxx instead)",,,NN!!NN!!NN!!NN!!NN!!NN!! ü* ü* ü**
+0,1626454494,2021-07-16T16:54:54Z,VE7BVU-1,VE7BVU-1,29(8/14),0,/,VE7BVU-1,/b,49.207248,-123.101043,,,114.0,,,,"Generic, (obsolete. Digis should use APNxxx instead)",,,NN!!NN!!NN!!NN!!NN!!NN!! ü* ü* ü**
+0,1626454514,2021-07-16T16:55:14Z,VE7BVU-1,VE7BVU-1,28(8/13),0,/,VE7BVU-1,/b,49.207087,-123.100397,,,55.7,,,,"Generic, (obsolete. Digis should use APNxxx instead)",,,5YLh/C_g5YLw/C_j5YL(/C_o@P*?L*>T**
+0,1626454534,2021-07-16T16:55:34Z,VE7BVU-1,VE7BVU-1,29(9/13),0,/,VE7BVU-1,/b,49.207082,-123.100392,,,48.8,,,,"Generic, (obsolete. Digis should use APNxxx instead)",,,5YL//C_p5YL//C_q5YL//C_q=&*<t*<t**
+0,1626454554,2021-07-16T16:55:54Z,VE7BVU-1,VE7BVU-1,29(8/13),0,/,VE7BVU-1,/b,49.207082,-123.100392,,,48.8,,,,"Generic, (obsolete. Digis should use APNxxx instead)",,,5YL//C_q5YL//C_q5YL//C_q<t*<t*<t**
+0,1626454574,2021-07-16T16:56:14Z,VE7BVU-1,VE7BVU-1,28(8/13),0,/,VE7BVU-1,/b,49.207082,-123.100392,,,48.8,,,,"Generic, (obsolete. Digis should use APNxxx instead)",,,5YL//C_q5YL//C_q5YL//C_q<t*<t*<t**
+0,1626454594,2021-07-16T16:56:34Z,VE7BVU-1,VE7BVU-1,28(8/14),0,/,VE7BVU-1,/b,49.207077,-123.100392,,,45.7,,,,"Generic, (obsolete. Digis should use APNxxx instead)",,,5YL//C_q5YL//C_q5YL1/C_q<t*<t*<k*!
+0,1626454614,2021-07-16T16:56:54Z,VE7BVU-1,VE7BVU-1,28(8/14),0,/,VE7BVU-1,/b,49.207082,-123.100366,,,38.7,,,,"Generic, (obsolete. Digis should use APNxxx instead)",,,5YL1/C_t5YL//C_t5YL//C_v<?!<&!;k!*
+0,1626454634,2021-07-16T16:57:14Z,VE7BVU-1,VE7BVU-1,28(8/14),0,/,VE7BVU-1,/b,49.207087,-123.100366,,,33.8,,,,"Generic, (obsolete. Digis should use APNxxx instead)",,,5YL//C_v5YL//C_v5YL-/C_v;P!;C!;%!!
+0,1626454654,2021-07-16T16:57:34Z,VE7BVU-1,VE7BVU-1,28(8/13),0,/,VE7BVU-1,/b,49.207087,-123.100366,,,33.8,,,,"Generic, (obsolete. Digis should use APNxxx instead)",,,5YL-/C_v5YL-/C_v5YL-/C_v:s!:s!:s!!
+0,1626454674,2021-07-16T16:57:54Z,VE7BVU-1,VE7BVU-1,27(8/13),0,/,VE7BVU-1,/b,49.207087,-123.100366,,,33.8,,,,"Generic, (obsolete. Digis should use APNxxx instead)",,,5YL-/C_v5YL-/C_v5YL-/C_v:s!:s!:s!!
+0,1626454694,2021-07-16T16:58:14Z,VE7BVU-1,VE7BVU-1,28(8/13),0,/,VE7BVU-1,/b,49.207087,-123.100366,,,33.8,,,,"Generic, (obsolete. Digis should use APNxxx instead)",,,5YL-/C_v5YL-/C_v5YL-/C_v:s!:s!:s!!
+0,1626454714,2021-07-16T16:58:34Z,VE7BVU-1,VE7BVU-1,28(8/13),0,/,VE7BVU-1,/b,49.207082,-123.100366,,,31.7,,,,"Generic, (obsolete. Digis should use APNxxx instead)",,,5YL-/C_v5YL//C_v5YL//C_v:s!:s!:e!!

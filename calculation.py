@@ -46,7 +46,7 @@ def interpolate_gps_positions(unpacked_prev, unpacked_curr):
         # Checks if we'll find a measurement in the known set that is at the same relative time as in the want set.
         if q_known/q_want*i % 1 == 0:
             # No interpolation
-            output_positions.append([unpacked_curr['lats'][q_known/q_want*i], unpacked_curr['longs'][q_known/q_want*i]])
+            output_positions.append([unpacked_curr['lats'][int(q_known/q_want*i)], unpacked_curr['longs'][int(q_known/q_want*i)]])
         else:
             # Interpolate
             next_latest = 1/q_known
@@ -156,17 +156,24 @@ def calculate_bearing(delta_lat, delta_long):
     :param delta_long: change in longitude
     :return: bearing, in degrees
     """
-    if delta_long == 0:
+    if delta_lat == 0.0 and delta_long == 0.0:
         return 0.123456
-    raw_angle = math.atan(delta_lat/delta_long)
-    if delta_lat > 0 and delta_long > 0: #1st quadrant
-        return math.degrees(abs(raw_angle))
-    elif delta_lat < 0 and delta_long > 0: #2nd quadrant
-        return 90 + math.degrees(abs(raw_angle))
-    elif delta_lat < 0 and delta_long < 0: #3rd quadrant
-        return 180 + math.degrees(abs(raw_angle))
-    elif delta_lat > 0 and delta_long < 0: #4th quadrant
-        return 270 + math.degrees(abs(raw_angle))
+    try:
+        raw_angle = math.pi/2 - abs(math.atan(delta_lat/delta_long))
+    except ZeroDivisionError:
+        raw_angle = math.pi/2
+
+    # Subtract from 90 so that 0 degrees is on +y axis rather than +x axis
+    # Also, bearing goes CW while math angles go CCW
+
+    if delta_lat >= 0.0 and delta_long >= 0.0: #NE
+        return math.degrees(raw_angle)
+    elif delta_lat <= 0.0 and delta_long >= 0.0: #SE
+        return 90.0 + math.degrees(raw_angle)
+    elif delta_lat <= 0.0 and delta_long <= 0.0: #SW
+        return 180.0 + math.degrees(raw_angle)
+    elif delta_lat >= 0.0 and delta_long <= 0.0: #NW
+        return 270.0 + math.degrees(raw_angle)
     else:
         return ValueError("Incorrect angle input")
 

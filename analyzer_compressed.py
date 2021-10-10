@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import List, Dict, Union
 import csv
 
 import analyzer
@@ -23,7 +23,7 @@ class CompressedAnalyzer(analyzer.Analyzer):
     """
 
     @staticmethod
-    def process_input(raw: List[Dict[str, List[float]]]) -> List[List[float]]:
+    def process_input(raw: List[Dict[str, Union[List, str]]]) -> List[List[float]]:
 
         ds = []
         for element in raw:
@@ -62,12 +62,12 @@ class CompressedAnalyzer(analyzer.Analyzer):
 
         data_points_builder = []
         for i in range(len(ds) - 1):
-            new_data = CompressedAnalyzer.interpolate_gps_positions(ds[i],
+            interpolated_pos = CompressedAnalyzer.interpolate_gps_positions(ds[i],
                                                                     ds[i + 1])  # We lose the first minute of data
             for j in range(config.COMPR_SENS_QUANTITY):
                 data_points_builder.append(
-                    [new_data[j][0], new_data[j][1], CompressedAnalyzer.feet_to_meters(ds[i + 1]['altitudes'][j]),
-                     CompressedAnalyzer.knots_to_kilom(ds[i + 1]['wind_speeds'][j])])
+                    [interpolated_pos[j][0], interpolated_pos[j][1], CompressedAnalyzer.feet_to_meters(ds[i + 1]['altitudes'][j]),
+                     CompressedAnalyzer.knots_to_meters_per_sec(ds[i + 1]['wind_speeds'][j])])
 
         return data_points_builder
 
@@ -78,14 +78,6 @@ class CompressedAnalyzer(analyzer.Analyzer):
         :return: the number in base 91 corresponding to that character
         """
         return ord(compressed_char) - 33
-
-    @staticmethod
-    def feet_to_meters(num):
-        return num / 3.2808399
-
-    @staticmethod
-    def knots_to_kilom(num):
-        return num / 0.539956803
 
     @staticmethod
     def unpack_latitude(compressed_string):
@@ -124,7 +116,7 @@ class CompressedAnalyzer(analyzer.Analyzer):
         :param compressed_string: A 1-character string containing a wind speed measurement in base91 format
         :return: Wind speed, in km/h.
         """
-        return CompressedAnalyzer.knots_to_kilom(1.08 ** CompressedAnalyzer.base91_to_int(compressed_string) - 1.0)
+        return CompressedAnalyzer.knots_to_meters_per_sec(1.08 ** CompressedAnalyzer.base91_to_int(compressed_string) - 1.0)
 
     """
     Relating to GPS interpolation

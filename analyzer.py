@@ -38,7 +38,7 @@ class Analyzer:
                                                                 self.data_points[i + 1][2], self.data_points[i][2],
                                                                 mean([self.data_points[i + 1][3],
                                                                       self.data_points[i][3]]),
-                                                                60 / config.COMPR_SENS_QUANTITY)
+                                                                config.TIME_STEP)
             temp.append([self.data_points[i][2], y_wind, x_wind])
 
         return temp
@@ -86,7 +86,7 @@ class Analyzer:
         elif delta_lat >= 0.0 and delta_long <= 0.0:  # NW
             return 270.0 + math.degrees(raw_angle)
         else:
-            return ValueError("Incorrect angle input")
+            raise ValueError("Incorrect angle input")
 
     @staticmethod
     def split_vector_to_components(vec, bearing):
@@ -128,16 +128,23 @@ class Analyzer:
         # 3) The balloon is going to be rising at ~5 m/s, and we want to remove the vertical component of this velocity so that we are left
         # just with the horizontal component. We use the fact that v^2 = v_h^2 + v_z^2. Taking v from the wind sensor,
         # and v_z from altitude differences, we calculate v_h
-        if sensor_speed / 3.6 < abs(disp_altitude / time_step):
-            sensor_speed_horizontal = math.sqrt((disp_altitude / time_step) ** 2 - (sensor_speed / 3.6) ** 2)
+        if sensor_speed < abs(disp_altitude / time_step):
+            sensor_speed_horizontal = math.sqrt((disp_altitude / time_step) ** 2 - sensor_speed ** 2)
         else:
-            sensor_speed_horizontal = math.sqrt((sensor_speed / 3.6) ** 2 - (disp_altitude / time_step) ** 2)
-        # divide by 3.6 to convert from km/h to m/s
+            sensor_speed_horizontal = math.sqrt(sensor_speed ** 2 - (disp_altitude / time_step) ** 2)
 
         # 4) Split the resulting v_horizontal into components parallel to N/S and E/W axes, using the bearing calculated in step 1
-        (sensor_speed_long, sensor_speed_lat) = Analyzer.split_vector_to_components(sensor_speed_horizontal, bearing)
+        (sensor_speed_lat, sensor_speed_long) = Analyzer.split_vector_to_components(sensor_speed_horizontal, bearing)
 
         # 5) Add the GPS displacments (step 0) to relative wind velocity (step 4)*
         # I use math.copysign as a temporary fix, while I figure out why step 4 didn't fix the sign.
-        return (disp_lat / time_step + math.copysign(sensor_speed_lat, disp_lat),
-                disp_long / time_step + math.copysign(sensor_speed_long, disp_long))
+        return (disp_lat / time_step + sensor_speed_lat,
+                disp_long / time_step + sensor_speed_long)
+
+    @staticmethod
+    def feet_to_meters(num):
+        return num / 3.2808399
+
+    @staticmethod
+    def knots_to_meters_per_sec(num):
+        return num * 0.5144439999984337

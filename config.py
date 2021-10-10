@@ -1,22 +1,20 @@
 """
 Configuration for APRS message decoder.
-
 """
 
 """
-Settings for file input and output
+Compressed format
 """
 
-INPUT_FILE_NAME = "2021-07-16.csv"
+# Total number of measurements, including the one not in the comment.
+#COMPR_GPS_QUANTITY = 4
+#COMPR_SENS_QUANTITY = 4
+
+TIME_STEP = 30 # Number of seconds between two datapoints (desired).
 
 
 """
-General
-"""
-
-
-"""
-What will the APRS strings look like?
+What will the APRS strings look like? [Deprecated]
 """
 
 DATA_TYPE_IDENTIFIER = "/"
@@ -27,11 +25,3 @@ GPS_LAT_FORMAT = "[0-9]{4}\.[0-9]{2}(N|S|n|s)"
 GPS_LONG_FORMAT = "[0-9]{5}\.[0-9]{2}(E|W|e|w)"
 GPS_ALT_FORMAT = "(?:a)[0-9]+"
 GPS_VEL_FORMAT = "(?:v)[0-9]+"
-
-"""
-Compressed format
-"""
-
-# Total number of measurements, including the one not in the comment.
-COMPR_GPS_QUANTITY = 4
-COMPR_SENS_QUANTITY = 4

@@ -4,7 +4,7 @@ import csv
 import analyzer_compressed
 
 
-class DirewolfAnalyzer(analyzer_compressed):
+class DirewolfAnalyzer(analyzer_compressed.CompressedAnalyzer):
 
     def __init__(self, filename):
         super().__init__(filename)
@@ -15,10 +15,11 @@ class DirewolfAnalyzer(analyzer_compressed):
             reader = csv.DictReader(input_file)
             split_rows = [{'lat': x['latitude'], 'long': x['longitude'], 'alt': x['altitude'], 'comment': x['comment']}
                           for x in reader]
+
         return DirewolfAnalyzer.process_input(split_rows)
 
 
-class AprsFiAnalyzer(analyzer_compressed):
+class AprsFiAnalyzer(analyzer_compressed.CompressedAnalyzer):
 
     def __init__(self, filename):
         super().__init__(filename)

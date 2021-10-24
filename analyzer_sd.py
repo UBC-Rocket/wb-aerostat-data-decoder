@@ -6,8 +6,8 @@ from analyzer import Analyzer
 
 class SDAnalyzer(Analyzer):
 
-    def __init__(self, filename):
-        super().__init__(filename)
+    def __init__(self, filename, timestep):
+        super().__init__(filename, timestep)
 
     @property
     def data_points(self) -> List[List[float]]:

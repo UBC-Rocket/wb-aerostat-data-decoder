@@ -9,8 +9,8 @@ class CompressedAnalyzer(analyzer.Analyzer):
     Parent class for analyzers that deal with base-91 compressed data.
     """
 
-    def __init__(self, filename):
-        super().__init__(filename)
+    def __init__(self, filename, timestep):
+        super().__init__(filename, timestep)
 
     @property
     def data_points(self) -> List[List[float]]:

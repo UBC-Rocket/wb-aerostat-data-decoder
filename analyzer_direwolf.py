@@ -6,8 +6,8 @@ import analyzer_compressed
 
 class DirewolfAnalyzer(analyzer_compressed.CompressedAnalyzer):
 
-    def __init__(self, filename):
-        super().__init__(filename)
+    def __init__(self, filename, timestep):
+        super().__init__(filename, timestep)
 
     @property
     def data_points(self) -> List[List[float]]:
@@ -21,8 +21,8 @@ class DirewolfAnalyzer(analyzer_compressed.CompressedAnalyzer):
 
 class AprsFiAnalyzer(analyzer_compressed.CompressedAnalyzer):
 
-    def __init__(self, filename):
-        super().__init__(filename)
+    def __init__(self, filename, timestep):
+        super().__init__(filename, timestep)
 
     @property
     def data_points(self) -> List[List[float]]:

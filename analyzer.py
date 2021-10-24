@@ -15,9 +15,13 @@ class Analyzer:
     High level functions
     """
 
-    def __init__(self, filename):
-        """Should create data_points from file input"""
+    def __init__(self, filename, timestep):
+        """
+        :param filename: Name of a CSV file
+        :param timestep: # of seconds desired between two datapoints.
+        """
         self.filename = filename
+        self.timestep = timestep
 
     @property
     def data_points(self) -> List[List[float]]:
@@ -38,20 +42,20 @@ class Analyzer:
                                                                 self.data_points[i + 1][2], self.data_points[i][2],
                                                                 mean([self.data_points[i + 1][3],
                                                                       self.data_points[i][3]]),
-                                                                config.TIME_STEP)
+                                                                self.timestep)
             temp.append([self.data_points[i][2], y_wind, x_wind])
 
         return temp
 
-    def output_vectors(self):
+    def output_vectors(self, filename):
 
-        with open("output.csv", 'w', newline="") as file:
+        with open(filename, 'w', newline="") as file:
             writer = csv.writer(file)
             file.write("Altitude,WindY,WindX\n")
             writer.writerows(self.vectors)
 
-    def output_map_line(self):
-        with open("map_output.csv", 'w', newline="") as mapfile:
+    def output_map_line(self, filename):
+        with open(filename, 'w', newline="") as mapfile:
             mapfile.write("Datapoint_ID,Latitude,Longitude,Altitude\n")
             for i in range(len(self.data_points)):
                 mapfile.write(f"{i + 1},{self.data_points[i][0]},{self.data_points[i][1]},{self.data_points[i][2]}\n")
@@ -70,21 +74,24 @@ class Analyzer:
         if delta_lat == 0.0 and delta_long == 0.0:
             return 0.123456
         try:
-            raw_angle = math.pi / 2 - abs(math.atan(delta_lat / delta_long))
+            raw_angle = math.atan(delta_lat / delta_long)
         except ZeroDivisionError:
-            raw_angle = math.pi / 2
+            if (delta_long > 0):
+                return math.pi / 2
+            else:
+                return -1.0*math.pi / 2
 
-        # Subtract from 90 so that 0 degrees is on +y axis rather than +x axis
         # Also, bearing goes CW while math angles go CCW
 
         if delta_lat >= 0.0 and delta_long >= 0.0:  # NE
-            return math.degrees(raw_angle)
+            return 90 - math.degrees(raw_angle)
         elif delta_lat <= 0.0 and delta_long >= 0.0:  # SE
             return 90.0 + math.degrees(raw_angle)
         elif delta_lat <= 0.0 and delta_long <= 0.0:  # SW
-            return 180.0 + math.degrees(raw_angle)
+            return 270 - math.degrees(raw_angle)
         elif delta_lat >= 0.0 and delta_long <= 0.0:  # NW
-            return 270.0 + math.degrees(raw_angle)
+            return 270.0 - math.degrees(raw_angle)
+            # Raw angle will be negative in 4th quadrant
         else:
             raise ValueError("Incorrect angle input")
 

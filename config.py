@@ -10,8 +10,6 @@ Compressed format
 #COMPR_GPS_QUANTITY = 4
 #COMPR_SENS_QUANTITY = 4
 
-TIME_STEP = 30 # Number of seconds between two datapoints (desired).
-
 
 """
 What will the APRS strings look like? [Deprecated]

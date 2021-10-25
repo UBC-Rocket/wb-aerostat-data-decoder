@@ -7,8 +7,8 @@ Compressed format
 """
 
 # Total number of measurements, including the one not in the comment.
-#COMPR_GPS_QUANTITY = 4
-#COMPR_SENS_QUANTITY = 4
+COMPR_GPS_QUANTITY = 4
+COMPR_SENS_QUANTITY = 4
 
 
 """

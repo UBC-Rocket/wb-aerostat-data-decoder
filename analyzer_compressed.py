@@ -31,9 +31,9 @@ class CompressedAnalyzer(analyzer.Analyzer):
             # then come the additional GPS positions (end index 8*GPS_QUANTITY acknowledges that we start at index 1, not 0)
             # finally come all of the altitude/velocity data, to the very end
             latest_wind_speed = CompressedAnalyzer.unpack_wind_speed(element['comment'][-1])
-            gps_data_stringchain = element['comment'][0:(8 * (config.COMPR_GPS_QUANTITY - 1))]
+            gps_data_stringchain = element['comment'][0:(8 * (config.GPS_POINTS_DESIRED - 1))]
             sens_data_stringchain = element['comment'][
-                                    (8 * (config.COMPR_GPS_QUANTITY - 1)):-1]  # from end of GPS sentence!
+                                    (8 * (config.GPS_POINTS_DESIRED - 1)):-1]  # from end of GPS sentence!
 
             latitudes = []
             longitudes = []
@@ -42,12 +42,12 @@ class CompressedAnalyzer(analyzer.Analyzer):
 
             # Split each string contianing multiple GPS/sensor datapoints into individual pieces of data
             # example: Lat1Long1Lat2Long2Lat3Long3 --> (Lat1, Lat2, Lat3...) and (Long1, Long2, Long3...
-            for i in range(config.COMPR_GPS_QUANTITY - 1):
+            for i in range(config.GPS_POINTS_DESIRED - 1):
                 latitudes.append(CompressedAnalyzer.unpack_latitude(gps_data_stringchain[(8 * i):(8 * (i + 1) - 4)]))
                 longitudes.append(
                     CompressedAnalyzer.unpack_longitude(gps_data_stringchain[((8 * i) + 4):(8 * (i + 1))]))
 
-            for i in range(config.COMPR_SENS_QUANTITY - 1):
+            for i in range(config.SENS_POINTS_DESIRED - 1):
                 altitudes.append(CompressedAnalyzer.unpack_altitude(sens_data_stringchain[(3 * i):(3 * (i + 1) - 1)]))
                 wind_speeds.append(CompressedAnalyzer.unpack_wind_speed(sens_data_stringchain[(3 * i) + 2]))
 
@@ -64,10 +64,10 @@ class CompressedAnalyzer(analyzer.Analyzer):
         for i in range(len(ds) - 1):
             interpolated_pos = CompressedAnalyzer.interpolate_gps_positions(ds[i],
                                                                     ds[i + 1])  # We lose the first minute of data
-            for j in range(config.COMPR_SENS_QUANTITY):
+            for j in range(config.SENS_POINTS_DESIRED):
                 data_points_builder.append(
-                    [interpolated_pos[j][0], interpolated_pos[j][1], CompressedAnalyzer.feet_to_meters(ds[i + 1]['altitudes'][j]),
-                     CompressedAnalyzer.knots_to_meters_per_sec(ds[i + 1]['wind_speeds'][j])])
+                    [interpolated_pos[j][0], interpolated_pos[j][1], ds[i + 1]['altitudes'][j],
+                     ds[i + 1]['wind_speeds'][j]])
 
         return data_points_builder
 
@@ -117,6 +117,20 @@ class CompressedAnalyzer(analyzer.Analyzer):
         :return: Wind speed, in km/h.
         """
         return CompressedAnalyzer.knots_to_meters_per_sec(1.08 ** CompressedAnalyzer.base91_to_int(compressed_string) - 1.0)
+
+    @staticmethod
+    def fix_ascii_slashes(s: Str):
+
+        s_new = s
+
+        for i in range(len(s_new) - 1):
+            if s_new[i : i+1] == "\\\'":
+                s_new.replace("\\\'", "\'")
+            elif s[i : i+1] == '\\\"':
+                s_new.replace('\\\"', '\"')
+            elif s[i : i+1] == '\\\\':
+                s_new.replace('\\\\', "\\")
+        return s_new
 
     """
     Relating to GPS interpolation

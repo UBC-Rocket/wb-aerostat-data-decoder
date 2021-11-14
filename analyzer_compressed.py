@@ -1,5 +1,6 @@
 from typing import List, Dict, Union
 import csv
+import codecs
 
 import analyzer
 import config
@@ -31,8 +32,9 @@ class CompressedAnalyzer(analyzer.Analyzer):
             # then come the additional GPS positions (end index 8*GPS_QUANTITY acknowledges that we start at index 1, not 0)
             # finally come all of the altitude/velocity data, to the very end
             latest_wind_speed = CompressedAnalyzer.unpack_wind_speed(element['comment'][-1])
-            gps_data_stringchain = element['comment'][0:(8 * (config.GPS_POINTS_DESIRED - 1))]
-            sens_data_stringchain = element['comment'][
+            string_chain = codecs.decode(element['comment'], 'unicode_escape')
+            gps_data_stringchain = string_chain[0:(8 * (config.GPS_POINTS_DESIRED - 1))]
+            sens_data_stringchain = string_chain[
                                     (8 * (config.GPS_POINTS_DESIRED - 1)):-1]  # from end of GPS sentence!
 
             latitudes = []
@@ -119,7 +121,7 @@ class CompressedAnalyzer(analyzer.Analyzer):
         return CompressedAnalyzer.knots_to_meters_per_sec(1.08 ** CompressedAnalyzer.base91_to_int(compressed_string) - 1.0)
 
     @staticmethod
-    def fix_ascii_slashes(s: Str):
+    def fix_ascii_slashes(s: str):
 
         s_new = s
 

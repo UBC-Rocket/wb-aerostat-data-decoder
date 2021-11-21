@@ -32,7 +32,8 @@ class CompressedAnalyzer(analyzer.Analyzer):
             # then come the additional GPS positions (end index 8*GPS_QUANTITY acknowledges that we start at index 1, not 0)
             # finally come all of the altitude/velocity data, to the very end
             latest_wind_speed = CompressedAnalyzer.unpack_wind_speed(element['comment'][-1])
-            string_chain = codecs.decode(element['comment'].encode('utf-8'), 'unicode_escape')
+            #string_chain = codecs.decode(element['comment'].encode('utf-8'), 'unicode_escape')
+            string_chain = element['comment']
             gps_data_stringchain = string_chain[0:(8 * (config.GPS_POINTS_DESIRED - 1))]
             sens_data_stringchain = string_chain[
                                     (8 * (config.GPS_POINTS_DESIRED - 1)):-1]  # from end of GPS sentence!
